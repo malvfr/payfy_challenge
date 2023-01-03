@@ -1,11 +1,13 @@
 defmodule Payfy.Users.Schema do
   use Payfy.Schema
+  alias Payfy.Raffles
   import Ecto.Changeset
 
   schema "users" do
     field :email, :string
     field :name, :string
 
+    many_to_many :raffles, Raffles.Schema, join_through: "users_raffles"
     timestamps()
   end
 
