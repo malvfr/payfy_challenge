@@ -16,7 +16,7 @@ defmodule Payfy.Users.Schema do
   end
 
   @doc false
-  def changeset(schema, attrs) do
+  def changeset(schema \\ %__MODULE__{}, attrs) do
     schema
     |> cast(attrs, [:name, :email])
     |> validate_required([:name, :email])
