@@ -8,7 +8,7 @@ defmodule Payfy.Users.UseCaseTest do
     setup do
       params = %{name: "My name", email: "valid@email.com"}
 
-      {:ok, {:ok, user}} = Mutator.create_user(params)
+      {:ok, user} = Mutator.create_user(params)
 
       {:ok, %{user: user}}
     end
@@ -27,8 +27,7 @@ defmodule Payfy.Users.UseCaseTest do
     test "Should create new users with valid parameters" do
       params = %{name: "My name", email: "valid@email.com"}
 
-      assert {:ok, {:ok, %{email: "valid@email.com", name: "My name"}}} =
-               UseCase.create_user(params)
+      assert {:ok, %{email: "valid@email.com", name: "My name"}} = UseCase.create_user(params)
     end
   end
 end

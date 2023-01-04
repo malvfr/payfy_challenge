@@ -8,7 +8,7 @@ defmodule Payfy.Users.LoaderTest do
     setup do
       params = %{name: "My name", email: "valid@email.com"}
 
-      {:ok, {:ok, user}} = Mutator.create_user(params)
+      {:ok, user} = Mutator.create_user(params)
 
       {:ok, %{user: user}}
     end

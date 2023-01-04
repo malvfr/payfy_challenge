@@ -7,5 +7,9 @@ defmodule Payfy.Users.Mutator do
       |> Users.Schema.changeset()
       |> Repo.insert()
     end)
+    |> case do
+      {:ok, data} -> data
+      error -> error
+    end
   end
 end

@@ -12,7 +12,7 @@ defmodule PayfyWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, {:ok, user}} <- Users.UseCase.create_user(user_params) do
+    with {:ok, user} <- Users.UseCase.create_user(user_params) do
       render(conn, "show.json", user: user)
     end
   end

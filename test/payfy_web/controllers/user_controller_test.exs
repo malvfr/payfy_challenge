@@ -4,7 +4,7 @@ defmodule PayfyWeb.UserControllerTest do
 
   describe "index/2" do
     test "should list one user", %{conn: conn} do
-      {:ok, {:ok, %{id: user_id}}} =
+      {:ok, %{id: user_id}} =
         Users.UseCase.create_user(%{name: "Some name", email: "valid@email.com"})
 
       conn = get(conn, Routes.user_path(conn, :index))

@@ -8,14 +8,13 @@ defmodule Payfy.Users.MutatorTest do
     test "Should create new users with valid parameters" do
       params = %{name: "My name", email: "valid@email.com"}
 
-      assert {:ok, {:ok, %{email: "valid@email.com", name: "My name"}}} =
-               Mutator.create_user(params)
+      assert {:ok, %{email: "valid@email.com", name: "My name"}} = Mutator.create_user(params)
     end
 
     test "Should not create new users with invalid parameters" do
       params = %{name: "My name", email: "invalidEmail.com"}
 
-      assert {:ok, {:error, %{valid?: false}}} = Mutator.create_user(params)
+      assert {:error, %{valid?: false}} = Mutator.create_user(params)
     end
 
     test "Should not create two users with the same email" do
