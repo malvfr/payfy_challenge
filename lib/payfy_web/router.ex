@@ -8,7 +8,7 @@ defmodule PayfyWeb.Router do
   scope "/api", PayfyWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/users", UserController, only: [:index, :create]
   end
 
   # Enables LiveDashboard only for development

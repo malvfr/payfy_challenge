@@ -6,22 +6,14 @@ defmodule PayfyWeb.UserController do
   action_fallback PayfyWeb.FallbackController
 
   def index(conn, _params) do
-    #  render(conn, "index.json", users: users)
+    with users <- Users.UseCase.get_all() do
+      render(conn, "index.json", users: users)
+    end
   end
 
   def create(conn, %{"user" => user_params}) do
-    # render("show.json", user: user)
-  end
-
-  def show(conn, %{"id" => id}) do
-    # render(conn, "show.json", user: user)
-  end
-
-  def update(conn, %{"id" => id, "user" => user_params}) do
-    #  render(conn, "show.json", user: user)
-  end
-
-  def delete(conn, %{"id" => id}) do
-    #  send_resp(conn, :no_content, "")
+    with {:ok, {:ok, user}} <- Users.UseCase.create_user(user_params) do
+      render(conn, "show.json", user: user)
+    end
   end
 end
