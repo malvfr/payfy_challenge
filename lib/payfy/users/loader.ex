@@ -6,4 +6,8 @@ defmodule Payfy.Users.Loader do
     |> Repo.get(id)
     |> Repo.preload(preloads)
   end
+
+  def get_all() do
+    Repo.all(Users.Schema)
+  end
 end
