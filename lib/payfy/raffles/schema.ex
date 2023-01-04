@@ -1,5 +1,5 @@
 defmodule Payfy.Raffles.Schema do
-  use Ecto.Schema
+  use Payfy.Schema
   alias Payfy.Users
   import Ecto.Changeset
 
@@ -17,9 +17,16 @@ defmodule Payfy.Raffles.Schema do
   end
 
   @doc false
-  def changeset(schema, attrs) do
+  def changeset(schema \\ %__MODULE__{}, attrs) do
     schema
     |> cast(attrs, [:name, :date, :active])
     |> validate_required([:name, :date, :active])
+    |> validate_change(:date, fn _, date ->
+      if DateTime.compare(date, DateTime.utc_now()) == :lt do
+        [date: "Cannot be earlier than today!"]
+      else
+        []
+      end
+    end)
   end
 end
