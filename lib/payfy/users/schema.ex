@@ -7,7 +7,11 @@ defmodule Payfy.Users.Schema do
     field :email, :string
     field :name, :string
 
-    many_to_many :raffles, Raffles.Schema, join_through: "users_raffles"
+    many_to_many :raffles, Raffles.Schema,
+      join_through: "users_raffles",
+      join_keys: [user_id: :id, raffle_id: :id],
+      on_replace: :delete
+
     timestamps()
   end
 

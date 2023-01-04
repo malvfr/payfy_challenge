@@ -8,7 +8,10 @@ defmodule Payfy.Raffles.Schema do
     field :date, :utc_datetime
     field :name, :string
 
-    many_to_many :users, Users.Schema, join_through: "users_raffles"
+    many_to_many :users, Users.Schema,
+      join_through: "users_raffles",
+      join_keys: [user_id: :id, raffle_id: :id],
+      on_replace: :delete
 
     timestamps()
   end
