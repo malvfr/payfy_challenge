@@ -35,8 +35,8 @@ defmodule Payfy.Raffles.UseCaseTest do
 
   describe "raffle_active?/1" do
     test "Should return a boolean whether the raffle is active or not" do
-      assert true == UseCase.raffle_active?(%{date: ~U[9999-12-31 00:00:00Z]})
-      assert false == UseCase.raffle_active?(%{date: ~U[0001-12-31 00:00:00Z]})
+      assert true == UseCase.raffle_active?(%{active: true})
+      assert false == UseCase.raffle_active?(%{active: false})
     end
   end
 

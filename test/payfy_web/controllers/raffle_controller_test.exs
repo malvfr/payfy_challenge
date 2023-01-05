@@ -65,7 +65,8 @@ defmodule PayfyWeb.RaffleControllerTest do
       create_params = %{
         name: "Expired raffle",
         date: ~U[2000-12-31 00:00:00Z],
-        winner_id: user_id
+        winner_id: user_id,
+        active: false
       }
 
       {:ok, %{id: raffle_id}} = Raffles.Mutator.create_raffle(create_params)
@@ -80,7 +81,31 @@ defmodule PayfyWeb.RaffleControllerTest do
     end
   end
 
-  describe "user_raffle" do
+  describe "close_raffle/2" do
+    setup do
+      params = %{name: "My name", email: "valid@email.com"}
+      {:ok, user} = Users.Mutator.create_user(params)
+
+      params = %{name: "My name", date: ~U[2023-12-31 00:00:00Z]}
+      {:ok, raffle} = Raffles.Mutator.create_raffle(params)
+
+      {:ok, %{user: user, raffle: raffle}}
+    end
+
+    test "should return ok when closing ongoing raffle", %{
+      conn: conn,
+      user: %{id: user_id},
+      raffle: %{id: raffle_id}
+    } do
+      params = %{"id" => raffle_id}
+
+      conn = post(conn, Routes.raffle_path(conn, :close_raffle, raffle_id))
+
+      assert conn.status == 204
+    end
+  end
+
+  describe "user_raffle/2" do
     setup do
       params = %{name: "My name", email: "valid@email.com"}
       {:ok, user} = Users.Mutator.create_user(params)

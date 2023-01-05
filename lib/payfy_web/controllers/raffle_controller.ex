@@ -20,6 +20,15 @@ defmodule PayfyWeb.RaffleController do
   def join_raffle(conn, params) do
     with {:ok, _raffle} <- Raffles.UseCase.join_raffle(params) do
       send_resp(conn, 201, "OK")
+    else
+      {:error, :expired_raffle} ->
+        json(conn, %{data: %{is_raffle_active: false, message: "Raffle is expired"}})
+    end
+  end
+
+  def close_raffle(conn, %{"id" => raffle_id}) do
+    with :ok <- Raffles.UseCase.close_raffle(raffle_id) do
+      send_resp(conn, 204, "")
     end
   end
 
