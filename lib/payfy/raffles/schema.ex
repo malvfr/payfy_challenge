@@ -6,11 +6,12 @@ defmodule Payfy.Raffles.Schema do
   schema "raffles" do
     field :date, :utc_datetime
     field :name, :string
+    field :active, :boolean, default: true
     field :winner_id, :binary_id, references: Users.Schema, default: nil
 
     many_to_many :users, Users.Schema,
       join_through: "users_raffles",
-      join_keys: [user_id: :id, raffle_id: :id],
+      join_keys: [raffle_id: :id, user_id: :id],
       on_replace: :delete
 
     timestamps()
@@ -19,8 +20,8 @@ defmodule Payfy.Raffles.Schema do
   @doc false
   def changeset(schema \\ %__MODULE__{}, attrs) do
     schema
-    |> cast(attrs, [:name, :date, :winner_id])
-    |> validate_required([:name, :date])
+    |> cast(attrs, [:name, :date, :winner_id, :active])
+    |> validate_required([:name, :date, :active])
   end
 
   def add_user_changeset(schema = %__MODULE__{}, user) do

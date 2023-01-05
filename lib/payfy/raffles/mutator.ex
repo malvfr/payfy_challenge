@@ -19,4 +19,10 @@ defmodule Payfy.Raffles.Mutator do
       error -> error
     end
   end
+
+  def set_winner(raffle, winner_id) do
+    raffle
+    |> Raffles.Schema.changeset(%{winner_id: winner_id, active: false})
+    |> Repo.update()
+  end
 end
