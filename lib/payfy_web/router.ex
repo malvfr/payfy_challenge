@@ -10,6 +10,7 @@ defmodule PayfyWeb.Router do
 
     resources "/users", UserController, only: [:index, :create]
     resources "/raffles", RaffleController, only: [:index, :create]
+    get "/raffles/:id/result", RaffleController, :raffle_result
     post "/raffles/join", RaffleController, :join_raffle
   end
 

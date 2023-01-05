@@ -34,6 +34,52 @@ defmodule PayfyWeb.RaffleControllerTest do
     end
   end
 
+  describe "result/2" do
+    setup do
+      params = %{name: "My name", email: "valid@email.com"}
+      {:ok, user} = Users.Mutator.create_user(params)
+
+      params = %{name: "My name", date: ~U[2023-12-31 00:00:00Z]}
+      {:ok, raffle} = Raffles.Mutator.create_raffle(params)
+
+      {:ok, %{user: user, raffle: raffle}}
+    end
+
+    test "should return a message for an ongoing raffle", %{
+      conn: conn,
+      user: %{id: user_id},
+      raffle: %{id: raffle_id}
+    } do
+      params = %{"id" => raffle_id}
+
+      conn = get(conn, Routes.raffle_path(conn, :raffle_result, raffle_id))
+
+      assert %{"is_raffle_active" => true, "message" => "Raffle is still active"} =
+               json_response(conn, 200)["data"]
+    end
+
+    test "should return the winner of the raffle", %{
+      conn: conn,
+      user: %{id: user_id, email: user_email, name: user_name}
+    } do
+      create_params = %{
+        name: "Expired raffle",
+        date: ~U[2000-12-31 00:00:00Z],
+        winner_id: user_id
+      }
+
+      {:ok, %{id: raffle_id}} = Raffles.Mutator.create_raffle(create_params)
+
+      conn = get(conn, Routes.raffle_path(conn, :raffle_result, raffle_id))
+
+      assert %{
+               "email" => ^user_email,
+               "id" => ^user_id,
+               "name" => ^user_name
+             } = json_response(conn, 200)["data"]
+    end
+  end
+
   describe "user_raffle" do
     setup do
       params = %{name: "My name", email: "valid@email.com"}

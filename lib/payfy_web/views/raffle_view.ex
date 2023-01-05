@@ -17,4 +17,14 @@ defmodule PayfyWeb.RaffleView do
       name: raffle.name
     }
   end
+
+  def render("winner.json", %{raffle_winner: raffle_winner}) do
+    %{
+      data: %{
+        id: raffle_winner.id,
+        email: raffle_winner.email,
+        name: raffle_winner.name
+      }
+    }
+  end
 end
