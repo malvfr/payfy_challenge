@@ -1,6 +1,6 @@
 defmodule PayfyWeb.RaffleControllerTest do
   use PayfyWeb.ConnCase
-  alias Payfy.Raffles
+  alias Payfy.{Raffles, Users}
 
   describe "index/2" do
     test "should list one raffle", %{conn: conn} do
@@ -31,6 +31,29 @@ defmodule PayfyWeb.RaffleControllerTest do
 
       conn = post(conn, Routes.raffle_path(conn, :create, params))
       assert json_response(conn, 200)["data"]
+    end
+  end
+
+  describe "user_raffle" do
+    setup do
+      params = %{name: "My name", email: "valid@email.com"}
+      {:ok, user} = Users.Mutator.create_user(params)
+
+      params = %{name: "My name", date: ~U[2023-12-31 00:00:00Z]}
+      {:ok, raffle} = Raffles.Mutator.create_raffle(params)
+
+      {:ok, %{user: user, raffle: raffle}}
+    end
+
+    test "should add user to a raffle", %{
+      conn: conn,
+      user: %{id: user_id},
+      raffle: %{id: raffle_id}
+    } do
+      params = %{"user_id" => user_id, "raffle_id" => raffle_id}
+
+      conn = post(conn, Routes.raffle_path(conn, :join_raffle, params))
+      assert response(conn, 201)
     end
   end
 end

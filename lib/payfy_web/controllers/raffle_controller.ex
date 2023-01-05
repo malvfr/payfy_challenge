@@ -16,4 +16,10 @@ defmodule PayfyWeb.RaffleController do
       render(conn, "show.json", raffle: raffle)
     end
   end
+
+  def join_raffle(conn, params) do
+    with {:ok, _raffle} <- Raffles.UseCase.join_raffle(params) do
+      send_resp(conn, 201, "OK")
+    end
+  end
 end

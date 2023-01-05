@@ -10,6 +10,7 @@ defmodule PayfyWeb.Router do
 
     resources "/users", UserController, only: [:index, :create]
     resources "/raffles", RaffleController, only: [:index, :create]
+    post "/raffles/join", RaffleController, :join_raffle
   end
 
   # Enables LiveDashboard only for development

@@ -4,7 +4,6 @@ defmodule Payfy.Raffles.Schema do
   import Ecto.Changeset
 
   schema "raffles" do
-    field :active, :boolean, default: false
     field :date, :utc_datetime
     field :name, :string
 
@@ -19,8 +18,8 @@ defmodule Payfy.Raffles.Schema do
   @doc false
   def changeset(schema \\ %__MODULE__{}, attrs) do
     schema
-    |> cast(attrs, [:name, :date, :active])
-    |> validate_required([:name, :date, :active])
+    |> cast(attrs, [:name, :date])
+    |> validate_required([:name, :date])
     |> validate_change(:date, fn _, date ->
       if DateTime.compare(date, DateTime.utc_now()) == :lt do
         [date: "Cannot be earlier than today!"]
@@ -28,5 +27,11 @@ defmodule Payfy.Raffles.Schema do
         []
       end
     end)
+  end
+
+  def add_user_changeset(schema = %__MODULE__{}, user) do
+    user
+    |> Ecto.Changeset.change()
+    |> put_assoc(:raffles, [schema | user.raffles])
   end
 end

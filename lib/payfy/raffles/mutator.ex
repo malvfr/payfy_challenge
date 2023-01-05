@@ -12,4 +12,11 @@ defmodule Payfy.Raffles.Mutator do
       error -> error
     end
   end
+
+  def add_user(user, raffle) do
+    case Raffles.Schema.add_user_changeset(raffle, user) do
+      %{valid?: true} = changeset -> Repo.update(changeset)
+      error -> error
+    end
+  end
 end
