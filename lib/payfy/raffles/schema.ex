@@ -6,6 +6,7 @@ defmodule Payfy.Raffles.Schema do
   schema "raffles" do
     field :date, :utc_datetime
     field :name, :string
+    field :winner_id, :binary_id, references: Users.Schema, default: nil
 
     many_to_many :users, Users.Schema,
       join_through: "users_raffles",
@@ -18,15 +19,8 @@ defmodule Payfy.Raffles.Schema do
   @doc false
   def changeset(schema \\ %__MODULE__{}, attrs) do
     schema
-    |> cast(attrs, [:name, :date])
+    |> cast(attrs, [:name, :date, :winner_id])
     |> validate_required([:name, :date])
-    |> validate_change(:date, fn _, date ->
-      if DateTime.compare(date, DateTime.utc_now()) == :lt do
-        [date: "Cannot be earlier than today!"]
-      else
-        []
-      end
-    end)
   end
 
   def add_user_changeset(schema = %__MODULE__{}, user) do
