@@ -1,5 +1,6 @@
 defmodule PayfyWeb.RaffleView do
   use PayfyWeb, :view
+  alias PayfyWeb.UserView
   alias PayfyWeb.RaffleView
 
   def render("index.json", %{raffles: raffles}) do
@@ -14,7 +15,9 @@ defmodule PayfyWeb.RaffleView do
     %{
       id: raffle.id,
       date: raffle.date,
-      name: raffle.name
+      name: raffle.name,
+      active: raffle.active,
+      participants: render_many(raffle.users, UserView, "user.json")
     }
   end
 

@@ -7,7 +7,9 @@ defmodule Payfy.Raffles.Loader do
     |> Repo.preload(preloads)
   end
 
-  def get_all() do
-    Repo.all(Raffles.Schema)
+  def get_all(preloads \\ [:users]) do
+    Raffles.Schema
+    |> Repo.all()
+    |> Repo.preload(preloads)
   end
 end
