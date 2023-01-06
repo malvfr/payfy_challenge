@@ -15,15 +15,33 @@ defmodule Payfy.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Payfy.PubSub},
       # Start the Endpoint (http/https)
-      PayfyWeb.Endpoint
-      # Start a worker by calling: Payfy.Worker.start_link(arg)
-      # {Payfy.Worker, arg}
+      PayfyWeb.Endpoint,
+      :poolboy.child_spec(:raffle_worker, poolboy_config(:raffle)),
+      :poolboy.child_spec(:user_worker, poolboy_config(:user))
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Payfy.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp poolboy_config(:raffle) do
+    [
+      name: {:local, :raffle_worker},
+      worker_module: Payfy.Workers.RaffleWorker,
+      size: 5,
+      max_overflow: 2
+    ]
+  end
+
+  defp poolboy_config(:user) do
+    [
+      name: {:local, :user_worker},
+      worker_module: Payfy.Workers.UserWorker,
+      size: 5,
+      max_overflow: 2
+    ]
   end
 
   # Tell Phoenix to update the endpoint configuration

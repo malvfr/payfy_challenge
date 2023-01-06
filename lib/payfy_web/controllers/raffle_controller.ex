@@ -12,13 +12,13 @@ defmodule PayfyWeb.RaffleController do
   end
 
   def create(conn, %{"raffle" => raffle_params}) do
-    with {:ok, raffle} <- Raffles.UseCase.create_raffle(raffle_params) do
+    with {:ok, raffle} <- Raffles.Boundary.create_raffle(raffle_params) do
       render(conn, "show.json", raffle: raffle)
     end
   end
 
   def join_raffle(conn, params) do
-    with {:ok, _raffle} <- Raffles.UseCase.join_raffle(params) do
+    with {:ok, _raffle} <- Raffles.Boundary.join_raffle(params) do
       send_resp(conn, 201, "OK")
     else
       {:error, :expired_raffle} ->
