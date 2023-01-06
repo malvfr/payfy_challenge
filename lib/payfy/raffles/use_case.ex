@@ -32,6 +32,8 @@ defmodule Payfy.Raffles.UseCase do
         raffle_winner = Enum.random(raffle.users)
         Raffles.Mutator.set_winner(raffle, raffle_winner.id)
       end
+    else
+      nil -> {:error, :not_found}
     end
 
     :ok
@@ -44,6 +46,7 @@ defmodule Payfy.Raffles.UseCase do
       {:ok, raffle_winner}
     else
       true -> {:ok, :ongoing}
+      nil -> {:error, :not_found}
     end
   end
 
