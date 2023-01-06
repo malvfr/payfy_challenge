@@ -1,18 +1,40 @@
 version: "3.7"
 
 services:
-  payfy-db:
-    image: postgres
+  db:
+    image: postgres:12.13-alpine3.17
     environment:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_USER: "postgres"
       POSTGRES_DB: "payfy_dev"
+      POSTGRES_HOST: "db"
     ports:
       - "5432:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     networks:
       - postgres-compose-network
+  
+  web:
+    build: 
+      context: .
+    command: /bin/sh entrypoint.sh
+    ports:
+      - 4000:4000
+    environment:
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: payfy_dev
+      PGHOST: db
+      PGPORT: 5432
+
+    networks:
+      - postgres-compose-network
+    depends_on:
+      - db
+    links:
+      - db
+      
 
 networks:
   postgres-compose-network:
