@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "3da98abc-dc59-4800-94a4-7d47d2e31e89",
+		"name": "Payfy challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10876350"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": {\n    \"name\": \"New user - BOB\",\n    \"email\": \"bob@example.com\"\n}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "raffles",
+			"item": [
+				{
+					"name": "Get all raffles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/raffles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"raffles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create raffle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": {\n    \"name\": \"1\",\n    \"email\": 123\n}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Join raffle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": {\n    \"name\": \"1\",\n    \"email\": 123\n}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/raffles/join",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"raffles",
+								"join"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Result",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": {\n    \"name\": \"1\",\n    \"email\": 123\n}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/raffles/:id/result",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"raffles",
+								":id",
+								"result"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "0764c94b-eb6f-466a-afe0-f61bd9bff979"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close raffle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/raffles/:id/close",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"raffles",
+								":id",
+								"close"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "0764c94b-eb6f-466a-afe0-f61bd9bff979"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
