@@ -11,6 +11,10 @@ defmodule PayfyWeb.RaffleView do
     %{data: render_one(raffle, RaffleView, "raffle.json")}
   end
 
+  def render("create.json", %{raffle: raffle}) do
+    %{data: render_one(raffle, RaffleView, "create_raffle.json")}
+  end
+
   def render("raffle.json", %{raffle: raffle}) do
     %{
       id: raffle.id,
@@ -18,6 +22,15 @@ defmodule PayfyWeb.RaffleView do
       name: raffle.name,
       active: raffle.active,
       participants: render_many(raffle.users, UserView, "user.json")
+    }
+  end
+
+  def render("create_raffle.json", %{raffle: raffle}) do
+    %{
+      id: raffle.id,
+      date: raffle.date,
+      name: raffle.name,
+      active: raffle.active
     }
   end
 

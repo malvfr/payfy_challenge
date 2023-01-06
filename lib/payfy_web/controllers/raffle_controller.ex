@@ -13,7 +13,7 @@ defmodule PayfyWeb.RaffleController do
 
   def create(conn, %{"raffle" => raffle_params}) do
     with {:ok, raffle} <- Raffles.Boundary.create_raffle(raffle_params) do
-      render(conn, "show.json", raffle: raffle)
+      render(conn, "create.json", raffle: raffle)
     end
   end
 
