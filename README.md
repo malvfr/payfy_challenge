@@ -53,3 +53,5 @@ Os testes rodam na CI do Github, quando a branch **main** é atualizada.
 # Coleção Postman
 
 Caso queira usar o Postman para executar suas requests, existe uma coleção na raiz do projeto que poderá ser importada.
+
+Também existe um Environment para carregar as configurações de variáveis de ambiente.
